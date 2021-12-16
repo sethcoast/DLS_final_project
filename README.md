@@ -28,5 +28,7 @@ quantization to further reduce the size and memory of our network
 5. Install jupyter notebook <i>conda install notebook  jupyter notebook</i>
 6. Run the following jupyter notebook
 7.  It can be downloaded from https://www.tensorflow.org/hub/tutorials/biggan_generation_with_tf_hub
-(biggan_generation_with_tf_hub.ipynb)[https://github.com/sethcoast/DLS_final_project/blob/main/biggan_generation_with_tf_hub.ipynb]
+
+
+[biggan_generation_with_tf_hub.ipynb](https://github.com/sethcoast/DLS_final_project/blob/main/biggan_generation_with_tf_hub.ipynb)
 
