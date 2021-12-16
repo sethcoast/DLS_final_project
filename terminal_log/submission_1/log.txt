@@ -1,0 +1,444 @@
+Namespace(batch_size=128, beta1=0.0, beta2=0.9, c_dim=128, d_conv_dim=32, d_lr=0.0002, d_repeat_num=5, g_conv_dim=32, g_lr=0.0002, g_repeat_num=5, image_dir='data/BigGANs_data/images', image_size=128, label_path='data/BigGANs_data/all_labels.npy', lambda_gan=0.01, log_dir='gan/logs', log_step=500, lr_decay_start=300000, mode='train', model_save_dir='gan/models', model_save_step=10, n_critic=5, num_epoch=30, num_workers=8, real_dir='/home/gh/scratch/Project/ACCV_TinyGAN/data/comp_images/comp_IMAGENET_1000_2', real_fid_stat_dir='Get_ImageNet_FID', real_incep_stat_dir='stat_real', result_dir='gan/results', resume_epoch=0, sample_dir='gan/samples', sample_step=1, save_dir='gan', test_epoch=30, use_numpy_fid=True, use_tensorboard=False, use_vgg=True, z_dim=128, z_path='data/BigGANs_data/all_noises.npy')
+# In train set, # of data: 471250
+Finished preprocessing the dataset...
+# In test set, # of data: 5000
+Finished preprocessing the dataset...
+# In Real set, # of data: 427275
+Finished preprocessing the dataset...
+Generator(
+  (embeding): Embedding(1000, 128)
+  (fc): Linear(in_features=128, out_features=8192, bias=True)
+  (blocks): Sequential(
+    (0): GBlock(
+      (dw_conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+      (dw_conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+      (pw_conv1): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))
+      (pw_conv2): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))
+      (c_sc): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))
+      (cbn0): CBN2d(
+        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=1024, bias=True)
+      )
+      (cbn1): CBN2d(
+        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=1024, bias=True)
+      )
+    )
+    (1): GBlock(
+      (dw_conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+      (dw_conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+      (pw_conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1))
+      (pw_conv2): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))
+      (c_sc): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1))
+      (cbn0): CBN2d(
+        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=1024, bias=True)
+      )
+      (cbn1): CBN2d(
+        (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=512, bias=True)
+      )
+    )
+    (2): GBlock(
+      (dw_conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+      (dw_conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128)
+      (pw_conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1))
+      (pw_conv2): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))
+      (c_sc): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1))
+      (cbn0): CBN2d(
+        (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=512, bias=True)
+      )
+      (cbn1): CBN2d(
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=256, bias=True)
+      )
+    )
+    (3): GBlock(
+      (dw_conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128)
+      (dw_conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
+      (pw_conv1): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1))
+      (pw_conv2): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1))
+      (c_sc): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1))
+      (cbn0): CBN2d(
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=256, bias=True)
+      )
+      (cbn1): CBN2d(
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=128, bias=True)
+      )
+    )
+    (4): GBlock(
+      (dw_conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64)
+      (dw_conv2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32)
+      (pw_conv1): Conv2d(64, 32, kernel_size=(1, 1), stride=(1, 1))
+      (pw_conv2): Conv2d(32, 32, kernel_size=(1, 1), stride=(1, 1))
+      (c_sc): Conv2d(64, 32, kernel_size=(1, 1), stride=(1, 1))
+      (cbn0): CBN2d(
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=128, bias=True)
+      )
+      (cbn1): CBN2d(
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+        (embed): Linear(in_features=128, out_features=64, bias=True)
+      )
+    )
+  )
+  (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (colorize): Conv2d(32, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+)
+G
+The number of parameters: 3.1 M, (3070659)
+Discriminator(
+  (embeding): Embedding(1000, 512)
+  (layers): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Conv2d(32, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (3): LeakyReLU(negative_slope=0.01)
+    (4): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (5): LeakyReLU(negative_slope=0.01)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (7): LeakyReLU(negative_slope=0.01)
+    (8): Conv2d(256, 512, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (9): LeakyReLU(negative_slope=0.01)
+  )
+  (fc_src): Linear(in_features=512, out_features=1, bias=True)
+)
+D
+The number of parameters: 3.3 M, (3300321)
+Start training...
+[0/499], D/loss_real: 0.0935, D/loss_fake: 0.0049, D/loss_real2: 0.2784, D/loss_fake2: 0.0000, G/loss_ft: 0.0754, G/loss_l1: 0.3118, G/loss_fake: 0.8964, G/loss_fake2: 0.9158
+[0/999], D/loss_real: 0.0264, D/loss_fake: 0.0022, D/loss_real2: 0.0185, D/loss_fake2: 0.0000, G/loss_ft: 0.0688, G/loss_l1: 0.2964, G/loss_fake: 1.9909, G/loss_fake2: 2.0408
+[0/1499], D/loss_real: 0.0391, D/loss_fake: 0.0000, D/loss_real2: 0.1604, D/loss_fake2: 0.0000, G/loss_ft: 0.0665, G/loss_l1: 0.3140, G/loss_fake: 2.8179, G/loss_fake2: 2.6017
+[0/1999], D/loss_real: 0.0110, D/loss_fake: 0.3326, D/loss_real2: 0.0153, D/loss_fake2: 0.3383, G/loss_ft: 0.0645, G/loss_l1: 0.3029, G/loss_fake: 2.4600, G/loss_fake2: 2.4728
+[0/2499], D/loss_real: 0.2529, D/loss_fake: 0.0111, D/loss_real2: 0.5085, D/loss_fake2: 0.0403, G/loss_ft: 0.0418, G/loss_l1: 0.3095, G/loss_fake: 1.1560, G/loss_fake2: 1.1591
+[0/2999], D/loss_real: 0.1555, D/loss_fake: 0.0198, D/loss_real2: 0.4064, D/loss_fake2: 0.0355, G/loss_ft: 0.0424, G/loss_l1: 0.3151, G/loss_fake: 1.1221, G/loss_fake2: 1.0786
+[0/3499], D/loss_real: 0.0058, D/loss_fake: 0.4623, D/loss_real2: 0.1622, D/loss_fake2: 0.4739, G/loss_ft: 0.0516, G/loss_l1: 0.3024, G/loss_fake: 2.2354, G/loss_fake2: 2.0631
+Save fake images into gan/samples/1-train.png...
+Save fake images into gan/samples/1-random.png...
+Save fake images into gan/samples/1-test.png...
+Generator, discriminator, and total loss for 0 epoch is: 466.298828125, 1176.8192138671875, 1643.1180419921875
+[1/499], D/loss_real: 0.5383, D/loss_fake: 0.0017, D/loss_real2: 0.9827, D/loss_fake2: 0.0006, G/loss_ft: 0.0405, G/loss_l1: 0.3039, G/loss_fake: 0.9643, G/loss_fake2: 0.8854
+[1/999], D/loss_real: 0.0063, D/loss_fake: 0.2885, D/loss_real2: 0.1150, D/loss_fake2: 0.2614, G/loss_ft: 0.0607, G/loss_l1: 0.3090, G/loss_fake: 2.1082, G/loss_fake2: 2.1247
+[1/1499], D/loss_real: 0.1664, D/loss_fake: 0.0175, D/loss_real2: 0.4915, D/loss_fake2: 0.0209, G/loss_ft: 0.0471, G/loss_l1: 0.2977, G/loss_fake: 1.0839, G/loss_fake2: 1.0638
+[1/1999], D/loss_real: 0.0056, D/loss_fake: 0.2617, D/loss_real2: 0.1743, D/loss_fake2: 0.2083, G/loss_ft: 0.0662, G/loss_l1: 0.2987, G/loss_fake: 2.4957, G/loss_fake2: 2.4429
+[1/2499], D/loss_real: 0.6574, D/loss_fake: 0.0002, D/loss_real2: 0.9133, D/loss_fake2: 0.0010, G/loss_ft: 0.0526, G/loss_l1: 0.2937, G/loss_fake: -0.2255, G/loss_fake2: -0.0772
+[1/2999], D/loss_real: 0.0449, D/loss_fake: 0.2016, D/loss_real2: 0.1546, D/loss_fake2: 0.2490, G/loss_ft: 0.0591, G/loss_l1: 0.2749, G/loss_fake: 1.9284, G/loss_fake2: 1.7799
+[1/3499], D/loss_real: 0.0010, D/loss_fake: 0.2489, D/loss_real2: 0.1078, D/loss_fake2: 0.3236, G/loss_ft: 0.0767, G/loss_l1: 0.2991, G/loss_fake: 2.5301, G/loss_fake2: 2.4484
+Save fake images into gan/samples/2-train.png...
+Save fake images into gan/samples/2-random.png...
+Save fake images into gan/samples/2-test.png...
+Generator, discriminator, and total loss for 1 epoch is: 426.4241943359375, 1894.643310546875, 2321.0673828125
+[2/499], D/loss_real: 0.2763, D/loss_fake: 0.0052, D/loss_real2: 0.5187, D/loss_fake2: 0.0085, G/loss_ft: 0.0582, G/loss_l1: 0.2870, G/loss_fake: 1.2087, G/loss_fake2: 1.0234
+[2/999], D/loss_real: 0.4540, D/loss_fake: 0.0023, D/loss_real2: 0.6261, D/loss_fake2: 0.0000, G/loss_ft: 0.0547, G/loss_l1: 0.2935, G/loss_fake: 0.6462, G/loss_fake2: 0.8059
+[2/1499], D/loss_real: 0.0487, D/loss_fake: 0.1436, D/loss_real2: 0.1833, D/loss_fake2: 0.2084, G/loss_ft: 0.0721, G/loss_l1: 0.3051, G/loss_fake: 1.9272, G/loss_fake2: 1.7831
+[2/1999], D/loss_real: 0.4289, D/loss_fake: 0.0072, D/loss_real2: 0.5985, D/loss_fake2: 0.0005, G/loss_ft: 0.0635, G/loss_l1: 0.2920, G/loss_fake: 0.3551, G/loss_fake2: 0.5792
+[2/2499], D/loss_real: 0.0373, D/loss_fake: 0.3406, D/loss_real2: 0.1731, D/loss_fake2: 0.3810, G/loss_ft: 0.0776, G/loss_l1: 0.2834, G/loss_fake: 2.4025, G/loss_fake2: 2.3524
+[2/2999], D/loss_real: 0.0079, D/loss_fake: 0.3592, D/loss_real2: 0.1553, D/loss_fake2: 0.2846, G/loss_ft: 0.0854, G/loss_l1: 0.2966, G/loss_fake: 2.4293, G/loss_fake2: 2.3275
+[2/3499], D/loss_real: 0.4008, D/loss_fake: 0.0023, D/loss_real2: 0.7167, D/loss_fake2: 0.0041, G/loss_ft: 0.0632, G/loss_l1: 0.2822, G/loss_fake: 0.5269, G/loss_fake2: 0.5910
+Save fake images into gan/samples/3-train.png...
+Save fake images into gan/samples/3-random.png...
+Save fake images into gan/samples/3-test.png...
+Generator, discriminator, and total loss for 2 epoch is: 452.0256042480469, 1727.1885986328125, 2179.214111328125
+[3/499], D/loss_real: 0.2040, D/loss_fake: 0.0410, D/loss_real2: 0.4994, D/loss_fake2: 0.0263, G/loss_ft: 0.0700, G/loss_l1: 0.2801, G/loss_fake: 1.0238, G/loss_fake2: 0.9353
+[3/999], D/loss_real: 0.0515, D/loss_fake: 0.4947, D/loss_real2: 0.2078, D/loss_fake2: 0.4674, G/loss_ft: 0.0677, G/loss_l1: 0.2799, G/loss_fake: 2.0428, G/loss_fake2: 2.1026
+[3/1499], D/loss_real: 0.0138, D/loss_fake: 0.1069, D/loss_real2: 0.2133, D/loss_fake2: 0.1010, G/loss_ft: 0.0797, G/loss_l1: 0.2865, G/loss_fake: 2.0492, G/loss_fake2: 1.9320
+[3/1999], D/loss_real: 0.7215, D/loss_fake: 0.0000, D/loss_real2: 1.1054, D/loss_fake2: 0.0071, G/loss_ft: 0.0656, G/loss_l1: 0.2884, G/loss_fake: 0.7650, G/loss_fake2: 0.7020
+[3/2499], D/loss_real: 0.4175, D/loss_fake: 0.0016, D/loss_real2: 0.7297, D/loss_fake2: 0.0167, G/loss_ft: 0.0656, G/loss_l1: 0.2797, G/loss_fake: 0.9586, G/loss_fake2: 0.9558
+[3/2999], D/loss_real: 0.4413, D/loss_fake: 0.0000, D/loss_real2: 0.7578, D/loss_fake2: 0.0026, G/loss_ft: 0.0686, G/loss_l1: 0.2723, G/loss_fake: 0.9583, G/loss_fake2: 0.8827
+[3/3499], D/loss_real: 0.5264, D/loss_fake: 0.0015, D/loss_real2: 0.6528, D/loss_fake2: 0.0014, G/loss_ft: 0.0671, G/loss_l1: 0.2783, G/loss_fake: 0.5620, G/loss_fake2: 0.6572
+Save fake images into gan/samples/4-train.png...
+Save fake images into gan/samples/4-random.png...
+Save fake images into gan/samples/4-test.png...
+Generator, discriminator, and total loss for 3 epoch is: 457.8837890625, 1659.7677001953125, 2117.6513671875
+[4/499], D/loss_real: 0.0991, D/loss_fake: 0.1126, D/loss_real2: 0.2647, D/loss_fake2: 0.1115, G/loss_ft: 0.0779, G/loss_l1: 0.2782, G/loss_fake: 1.7753, G/loss_fake2: 1.7564
+[4/999], D/loss_real: 0.0148, D/loss_fake: 0.2100, D/loss_real2: 0.1833, D/loss_fake2: 0.2031, G/loss_ft: 0.0784, G/loss_l1: 0.2773, G/loss_fake: 2.0746, G/loss_fake2: 1.9566
+[4/1499], D/loss_real: 0.0241, D/loss_fake: 0.2532, D/loss_real2: 0.2170, D/loss_fake2: 0.2498, G/loss_ft: 0.0750, G/loss_l1: 0.2679, G/loss_fake: 2.0243, G/loss_fake2: 1.9327
+[4/1999], D/loss_real: 0.3142, D/loss_fake: 0.0091, D/loss_real2: 0.6828, D/loss_fake2: 0.0039, G/loss_ft: 0.0685, G/loss_l1: 0.2719, G/loss_fake: 0.8012, G/loss_fake2: 0.8616
+[4/2499], D/loss_real: 0.0474, D/loss_fake: 0.2771, D/loss_real2: 0.1993, D/loss_fake2: 0.3494, G/loss_ft: 0.0797, G/loss_l1: 0.2660, G/loss_fake: 2.0797, G/loss_fake2: 1.8494
+[4/2999], D/loss_real: 0.0514, D/loss_fake: 0.2405, D/loss_real2: 0.1317, D/loss_fake2: 0.2500, G/loss_ft: 0.0785, G/loss_l1: 0.2776, G/loss_fake: 1.9773, G/loss_fake2: 1.8669
+[4/3499], D/loss_real: 0.0478, D/loss_fake: 0.1116, D/loss_real2: 0.2422, D/loss_fake2: 0.0561, G/loss_ft: 0.0786, G/loss_l1: 0.2760, G/loss_fake: 1.7950, G/loss_fake2: 1.5494
+Save fake images into gan/samples/5-train.png...
+Save fake images into gan/samples/5-random.png...
+Save fake images into gan/samples/5-test.png...
+Generator, discriminator, and total loss for 4 epoch is: 456.4433898925781, 1683.6983642578125, 2140.141845703125
+[5/499], D/loss_real: 0.3750, D/loss_fake: 0.0082, D/loss_real2: 0.6720, D/loss_fake2: 0.0243, G/loss_ft: 0.0746, G/loss_l1: 0.2703, G/loss_fake: 0.9773, G/loss_fake2: 0.7718
+[5/999], D/loss_real: 0.0785, D/loss_fake: 0.1889, D/loss_real2: 0.2769, D/loss_fake2: 0.1233, G/loss_ft: 0.0777, G/loss_l1: 0.2721, G/loss_fake: 1.6303, G/loss_fake2: 1.6954
+[5/1499], D/loss_real: 0.2836, D/loss_fake: 0.0311, D/loss_real2: 0.6705, D/loss_fake2: 0.0268, G/loss_ft: 0.0739, G/loss_l1: 0.2674, G/loss_fake: 0.9837, G/loss_fake2: 1.0239
+[5/1999], D/loss_real: 0.0232, D/loss_fake: 0.1581, D/loss_real2: 0.2388, D/loss_fake2: 0.0529, G/loss_ft: 0.0828, G/loss_l1: 0.2753, G/loss_fake: 1.9336, G/loss_fake2: 1.8960
+[5/2499], D/loss_real: 0.0876, D/loss_fake: 0.0388, D/loss_real2: 0.2779, D/loss_fake2: 0.0592, G/loss_ft: 0.0784, G/loss_l1: 0.2650, G/loss_fake: 1.3486, G/loss_fake2: 1.3727
+[5/2999], D/loss_real: 0.1932, D/loss_fake: 0.0479, D/loss_real2: 0.4538, D/loss_fake2: 0.0087, G/loss_ft: 0.0796, G/loss_l1: 0.2634, G/loss_fake: 0.8028, G/loss_fake2: 0.8623
+[5/3499], D/loss_real: 0.3124, D/loss_fake: 0.0081, D/loss_real2: 0.7411, D/loss_fake2: 0.0198, G/loss_ft: 0.0788, G/loss_l1: 0.2721, G/loss_fake: 0.6984, G/loss_fake2: 0.4795
+Save fake images into gan/samples/6-train.png...
+Save fake images into gan/samples/6-random.png...
+Save fake images into gan/samples/6-test.png...
+Generator, discriminator, and total loss for 5 epoch is: 454.83929443359375, 1719.9862060546875, 2174.825439453125
+[6/499], D/loss_real: 0.5856, D/loss_fake: 0.0036, D/loss_real2: 0.9474, D/loss_fake2: 0.0078, G/loss_ft: 0.0759, G/loss_l1: 0.2671, G/loss_fake: 0.5555, G/loss_fake2: 0.6248
+[6/999], D/loss_real: 0.2388, D/loss_fake: 0.0214, D/loss_real2: 0.4009, D/loss_fake2: 0.0172, G/loss_ft: 0.0774, G/loss_l1: 0.2698, G/loss_fake: 0.9124, G/loss_fake2: 1.0292
+[6/1499], D/loss_real: 0.0466, D/loss_fake: 0.1667, D/loss_real2: 0.2220, D/loss_fake2: 0.2383, G/loss_ft: 0.0798, G/loss_l1: 0.2633, G/loss_fake: 1.9411, G/loss_fake2: 1.8415
+[6/1999], D/loss_real: 0.1450, D/loss_fake: 0.0527, D/loss_real2: 0.4441, D/loss_fake2: 0.0298, G/loss_ft: 0.0773, G/loss_l1: 0.2580, G/loss_fake: 1.1514, G/loss_fake2: 1.1640
+[6/2499], D/loss_real: 0.1397, D/loss_fake: 0.0391, D/loss_real2: 0.4565, D/loss_fake2: 0.0602, G/loss_ft: 0.0825, G/loss_l1: 0.2672, G/loss_fake: 1.0599, G/loss_fake2: 1.0490
+[6/2999], D/loss_real: 0.0128, D/loss_fake: 0.2705, D/loss_real2: 0.2119, D/loss_fake2: 0.2944, G/loss_ft: 0.0841, G/loss_l1: 0.2604, G/loss_fake: 2.2090, G/loss_fake2: 2.0976
+[6/3499], D/loss_real: 0.0133, D/loss_fake: 0.3440, D/loss_real2: 0.1330, D/loss_fake2: 0.3854, G/loss_ft: 0.0849, G/loss_l1: 0.2590, G/loss_fake: 2.3555, G/loss_fake2: 2.1299
+Save fake images into gan/samples/7-train.png...
+Save fake images into gan/samples/7-random.png...
+Save fake images into gan/samples/7-test.png...
+Generator, discriminator, and total loss for 6 epoch is: 449.043701171875, 1727.3477783203125, 2176.3916015625
+[7/499], D/loss_real: 0.0005, D/loss_fake: 0.2376, D/loss_real2: 0.1609, D/loss_fake2: 0.4588, G/loss_ft: 0.0861, G/loss_l1: 0.2584, G/loss_fake: 2.1900, G/loss_fake2: 1.9126
+[7/999], D/loss_real: 0.0428, D/loss_fake: 0.1851, D/loss_real2: 0.2558, D/loss_fake2: 0.3250, G/loss_ft: 0.0839, G/loss_l1: 0.2530, G/loss_fake: 1.8922, G/loss_fake2: 1.7138
+[7/1499], D/loss_real: 0.0288, D/loss_fake: 0.2510, D/loss_real2: 0.1689, D/loss_fake2: 0.2946, G/loss_ft: 0.0868, G/loss_l1: 0.2621, G/loss_fake: 1.9055, G/loss_fake2: 1.7047
+[7/1999], D/loss_real: 0.0564, D/loss_fake: 0.1835, D/loss_real2: 0.2828, D/loss_fake2: 0.1627, G/loss_ft: 0.0852, G/loss_l1: 0.2677, G/loss_fake: 1.8017, G/loss_fake2: 1.6676
+[7/2499], D/loss_real: 0.3472, D/loss_fake: 0.0241, D/loss_real2: 0.6050, D/loss_fake2: 0.0034, G/loss_ft: 0.0788, G/loss_l1: 0.2641, G/loss_fake: 0.9598, G/loss_fake2: 1.0176
+[7/2999], D/loss_real: 0.0384, D/loss_fake: 0.1333, D/loss_real2: 0.2612, D/loss_fake2: 0.1943, G/loss_ft: 0.0854, G/loss_l1: 0.2566, G/loss_fake: 1.8966, G/loss_fake2: 1.8228
+[7/3499], D/loss_real: 0.0377, D/loss_fake: 0.2368, D/loss_real2: 0.1478, D/loss_fake2: 0.2981, G/loss_ft: 0.0874, G/loss_l1: 0.2636, G/loss_fake: 1.9277, G/loss_fake2: 1.7956
+Save fake images into gan/samples/8-train.png...
+Save fake images into gan/samples/8-random.png...
+Save fake images into gan/samples/8-test.png...
+Generator, discriminator, and total loss for 7 epoch is: 441.5479431152344, 1726.83837890625, 2168.38623046875
+[8/499], D/loss_real: 0.2009, D/loss_fake: 0.0328, D/loss_real2: 0.4352, D/loss_fake2: 0.0129, G/loss_ft: 0.0776, G/loss_l1: 0.2621, G/loss_fake: 0.9727, G/loss_fake2: 0.9703
+[8/999], D/loss_real: 0.0728, D/loss_fake: 0.1862, D/loss_real2: 0.1730, D/loss_fake2: 0.2039, G/loss_ft: 0.0843, G/loss_l1: 0.2546, G/loss_fake: 1.8745, G/loss_fake2: 1.8464
+[8/1499], D/loss_real: 0.0375, D/loss_fake: 0.1664, D/loss_real2: 0.2026, D/loss_fake2: 0.3364, G/loss_ft: 0.0865, G/loss_l1: 0.2571, G/loss_fake: 2.0868, G/loss_fake2: 1.8449
+[8/1999], D/loss_real: 0.1039, D/loss_fake: 0.0286, D/loss_real2: 0.4298, D/loss_fake2: 0.0451, G/loss_ft: 0.0873, G/loss_l1: 0.2635, G/loss_fake: 1.2977, G/loss_fake2: 1.2058
+[8/2499], D/loss_real: 0.1562, D/loss_fake: 0.0347, D/loss_real2: 0.3927, D/loss_fake2: 0.0343, G/loss_ft: 0.0806, G/loss_l1: 0.2528, G/loss_fake: 0.9547, G/loss_fake2: 1.0472
+[8/2999], D/loss_real: 0.1346, D/loss_fake: 0.0122, D/loss_real2: 0.5808, D/loss_fake2: 0.0434, G/loss_ft: 0.0835, G/loss_l1: 0.2635, G/loss_fake: 1.2519, G/loss_fake2: 1.0584
+[8/3499], D/loss_real: 0.4044, D/loss_fake: 0.0078, D/loss_real2: 0.7867, D/loss_fake2: 0.0037, G/loss_ft: 0.0792, G/loss_l1: 0.2555, G/loss_fake: 0.9936, G/loss_fake2: 0.9283
+Save fake images into gan/samples/9-train.png...
+Save fake images into gan/samples/9-random.png...
+Save fake images into gan/samples/9-test.png...
+Generator, discriminator, and total loss for 8 epoch is: 432.9209899902344, 1717.309814453125, 2150.230712890625
+[9/499], D/loss_real: 0.0459, D/loss_fake: 0.1635, D/loss_real2: 0.2716, D/loss_fake2: 0.2090, G/loss_ft: 0.0838, G/loss_l1: 0.2511, G/loss_fake: 2.0146, G/loss_fake2: 1.9115
+[9/999], D/loss_real: 0.0905, D/loss_fake: 0.1049, D/loss_real2: 0.3164, D/loss_fake2: 0.0618, G/loss_ft: 0.0794, G/loss_l1: 0.2499, G/loss_fake: 1.2881, G/loss_fake2: 1.2381
+[9/1499], D/loss_real: 0.0170, D/loss_fake: 0.3627, D/loss_real2: 0.1895, D/loss_fake2: 0.3183, G/loss_ft: 0.0849, G/loss_l1: 0.2541, G/loss_fake: 2.2137, G/loss_fake2: 2.1047
+[9/1999], D/loss_real: 0.1122, D/loss_fake: 0.0640, D/loss_real2: 0.4055, D/loss_fake2: 0.0460, G/loss_ft: 0.0818, G/loss_l1: 0.2515, G/loss_fake: 1.3091, G/loss_fake2: 1.1986
+[9/2499], D/loss_real: 0.0120, D/loss_fake: 0.2120, D/loss_real2: 0.1670, D/loss_fake2: 0.3081, G/loss_ft: 0.0890, G/loss_l1: 0.2602, G/loss_fake: 2.0181, G/loss_fake2: 1.7668
+[9/2999], D/loss_real: 0.0421, D/loss_fake: 0.2196, D/loss_real2: 0.1682, D/loss_fake2: 0.2348, G/loss_ft: 0.0855, G/loss_l1: 0.2439, G/loss_fake: 1.8385, G/loss_fake2: 1.6845
+[9/3499], D/loss_real: 0.1428, D/loss_fake: 0.0193, D/loss_real2: 0.3933, D/loss_fake2: 0.0507, G/loss_ft: 0.0828, G/loss_l1: 0.2586, G/loss_fake: 1.1983, G/loss_fake2: 1.1549
+Save fake images into gan/samples/10-train.png...
+Save fake images into gan/samples/10-random.png...
+Save fake images into gan/samples/10-test.png...
+Saved model checkpoints into gan/models/model_10.tar !
+Generator, discriminator, and total loss for 9 epoch is: 423.6605224609375, 1687.490478515625, 2111.15087890625
+[10/499], D/loss_real: 0.0099, D/loss_fake: 0.5555, D/loss_real2: 0.0756, D/loss_fake2: 0.5960, G/loss_ft: 0.0936, G/loss_l1: 0.2592, G/loss_fake: 2.2463, G/loss_fake2: 2.0587
+[10/999], D/loss_real: 0.1335, D/loss_fake: 0.0508, D/loss_real2: 0.3376, D/loss_fake2: 0.0352, G/loss_ft: 0.0781, G/loss_l1: 0.2480, G/loss_fake: 1.0944, G/loss_fake2: 1.0764
+[10/1499], D/loss_real: 0.2452, D/loss_fake: 0.0055, D/loss_real2: 0.3986, D/loss_fake2: 0.0101, G/loss_ft: 0.0776, G/loss_l1: 0.2531, G/loss_fake: 0.8634, G/loss_fake2: 0.8620
+[10/1999], D/loss_real: 0.0127, D/loss_fake: 0.2332, D/loss_real2: 0.2761, D/loss_fake2: 0.2146, G/loss_ft: 0.0845, G/loss_l1: 0.2509, G/loss_fake: 1.8281, G/loss_fake2: 1.6993
+[10/2499], D/loss_real: 0.0010, D/loss_fake: 0.1983, D/loss_real2: 0.1361, D/loss_fake2: 0.3300, G/loss_ft: 0.0859, G/loss_l1: 0.2506, G/loss_fake: 2.0898, G/loss_fake2: 1.7922
+[10/2999], D/loss_real: 0.0357, D/loss_fake: 0.1630, D/loss_real2: 0.1954, D/loss_fake2: 0.2169, G/loss_ft: 0.0809, G/loss_l1: 0.2462, G/loss_fake: 1.7825, G/loss_fake2: 1.6052
+[10/3499], D/loss_real: 0.0418, D/loss_fake: 0.3070, D/loss_real2: 0.2028, D/loss_fake2: 0.3064, G/loss_ft: 0.0849, G/loss_l1: 0.2523, G/loss_fake: 2.0348, G/loss_fake2: 1.8286
+Save fake images into gan/samples/11-train.png...
+Save fake images into gan/samples/11-random.png...
+Save fake images into gan/samples/11-test.png...
+Generator, discriminator, and total loss for 10 epoch is: 410.0891418457031, 1653.273681640625, 2063.36279296875
+[11/499], D/loss_real: 0.0274, D/loss_fake: 0.1119, D/loss_real2: 0.2449, D/loss_fake2: 0.2247, G/loss_ft: 0.0823, G/loss_l1: 0.2568, G/loss_fake: 1.5987, G/loss_fake2: 1.4807
+[11/999], D/loss_real: 0.0256, D/loss_fake: 0.2129, D/loss_real2: 0.2292, D/loss_fake2: 0.3278, G/loss_ft: 0.0815, G/loss_l1: 0.2496, G/loss_fake: 2.0075, G/loss_fake2: 1.7664
+[11/1499], D/loss_real: 0.3117, D/loss_fake: 0.0159, D/loss_real2: 0.5087, D/loss_fake2: 0.0146, G/loss_ft: 0.0801, G/loss_l1: 0.2569, G/loss_fake: 1.2623, G/loss_fake2: 1.0629
+[11/1999], D/loss_real: 0.0393, D/loss_fake: 0.1652, D/loss_real2: 0.1876, D/loss_fake2: 0.2304, G/loss_ft: 0.0838, G/loss_l1: 0.2583, G/loss_fake: 1.8109, G/loss_fake2: 1.6383
+[11/2499], D/loss_real: 0.2221, D/loss_fake: 0.0000, D/loss_real2: 0.3934, D/loss_fake2: 0.0128, G/loss_ft: 0.0780, G/loss_l1: 0.2516, G/loss_fake: 0.9768, G/loss_fake2: 0.8868
+[11/2999], D/loss_real: 0.0725, D/loss_fake: 0.1440, D/loss_real2: 0.3014, D/loss_fake2: 0.2508, G/loss_ft: 0.0811, G/loss_l1: 0.2457, G/loss_fake: 1.7214, G/loss_fake2: 1.5212
+[11/3499], D/loss_real: 0.3178, D/loss_fake: 0.0132, D/loss_real2: 0.6533, D/loss_fake2: 0.0233, G/loss_ft: 0.0773, G/loss_l1: 0.2626, G/loss_fake: 0.8070, G/loss_fake2: 0.6792
+Save fake images into gan/samples/12-train.png...
+Save fake images into gan/samples/12-random.png...
+Save fake images into gan/samples/12-test.png...
+Generator, discriminator, and total loss for 11 epoch is: 393.8165588378906, 1603.0894775390625, 1996.906005859375
+[12/499], D/loss_real: 0.2538, D/loss_fake: 0.0130, D/loss_real2: 0.3888, D/loss_fake2: 0.0262, G/loss_ft: 0.0777, G/loss_l1: 0.2524, G/loss_fake: 0.9784, G/loss_fake2: 0.8609
+[12/999], D/loss_real: 0.1873, D/loss_fake: 0.0163, D/loss_real2: 0.4016, D/loss_fake2: 0.0114, G/loss_ft: 0.0753, G/loss_l1: 0.2387, G/loss_fake: 1.1180, G/loss_fake2: 0.9672
+[12/1499], D/loss_real: 0.0503, D/loss_fake: 0.0899, D/loss_real2: 0.1356, D/loss_fake2: 0.1311, G/loss_ft: 0.0800, G/loss_l1: 0.2602, G/loss_fake: 1.6318, G/loss_fake2: 1.6065
+[12/1999], D/loss_real: 0.0041, D/loss_fake: 0.2309, D/loss_real2: 0.1143, D/loss_fake2: 0.4762, G/loss_ft: 0.0812, G/loss_l1: 0.2512, G/loss_fake: 2.2104, G/loss_fake2: 1.8682
+[12/2499], D/loss_real: 0.0169, D/loss_fake: 0.2381, D/loss_real2: 0.0883, D/loss_fake2: 0.4198, G/loss_ft: 0.0804, G/loss_l1: 0.2475, G/loss_fake: 2.2544, G/loss_fake2: 1.9461
+[12/2999], D/loss_real: 0.2954, D/loss_fake: 0.0074, D/loss_real2: 0.4013, D/loss_fake2: 0.0362, G/loss_ft: 0.0761, G/loss_l1: 0.2615, G/loss_fake: 0.8190, G/loss_fake2: 0.7853
+[12/3499], D/loss_real: 0.0198, D/loss_fake: 0.1693, D/loss_real2: 0.2165, D/loss_fake2: 0.2397, G/loss_ft: 0.0757, G/loss_l1: 0.2489, G/loss_fake: 1.8720, G/loss_fake2: 1.6170
+Save fake images into gan/samples/13-train.png...
+Save fake images into gan/samples/13-random.png...
+Save fake images into gan/samples/13-test.png...
+Generator, discriminator, and total loss for 12 epoch is: 373.7652893066406, 1541.3282470703125, 1915.093505859375
+[13/499], D/loss_real: 0.3549, D/loss_fake: 0.0055, D/loss_real2: 0.4839, D/loss_fake2: 0.0379, G/loss_ft: 0.0718, G/loss_l1: 0.2491, G/loss_fake: 0.9287, G/loss_fake2: 0.9182
+[13/999], D/loss_real: 0.1531, D/loss_fake: 0.0050, D/loss_real2: 0.5915, D/loss_fake2: 0.0310, G/loss_ft: 0.0693, G/loss_l1: 0.2445, G/loss_fake: 1.0561, G/loss_fake2: 1.0526
+[13/1499], D/loss_real: 0.0116, D/loss_fake: 0.4352, D/loss_real2: 0.0750, D/loss_fake2: 0.5725, G/loss_ft: 0.0828, G/loss_l1: 0.2451, G/loss_fake: 2.4628, G/loss_fake2: 2.0222
+[13/1999], D/loss_real: 0.0198, D/loss_fake: 0.1843, D/loss_real2: 0.2905, D/loss_fake2: 0.2098, G/loss_ft: 0.0779, G/loss_l1: 0.2608, G/loss_fake: 1.7941, G/loss_fake2: 1.5932
+[13/2499], D/loss_real: 0.0522, D/loss_fake: 0.0204, D/loss_real2: 0.5085, D/loss_fake2: 0.0113, G/loss_ft: 0.0732, G/loss_l1: 0.2525, G/loss_fake: 1.5090, G/loss_fake2: 1.3944
+[13/2999], D/loss_real: 0.1571, D/loss_fake: 0.0152, D/loss_real2: 0.6925, D/loss_fake2: 0.0086, G/loss_ft: 0.0725, G/loss_l1: 0.2553, G/loss_fake: 1.0891, G/loss_fake2: 1.2920
+[13/3499], D/loss_real: 0.0237, D/loss_fake: 0.1944, D/loss_real2: 0.4425, D/loss_fake2: 0.0428, G/loss_ft: 0.0712, G/loss_l1: 0.2440, G/loss_fake: 1.7932, G/loss_fake2: 1.5024
+Save fake images into gan/samples/14-train.png...
+Save fake images into gan/samples/14-random.png...
+Save fake images into gan/samples/14-test.png...
+Generator, discriminator, and total loss for 13 epoch is: 350.1754455566406, 1461.9720458984375, 1812.1474609375
+[14/499], D/loss_real: 0.2921, D/loss_fake: 0.0144, D/loss_real2: 0.4599, D/loss_fake2: 0.0358, G/loss_ft: 0.0691, G/loss_l1: 0.2506, G/loss_fake: 0.5143, G/loss_fake2: 0.6828
+[14/999], D/loss_real: 0.0069, D/loss_fake: 0.1037, D/loss_real2: 0.2224, D/loss_fake2: 0.1279, G/loss_ft: 0.0708, G/loss_l1: 0.2529, G/loss_fake: 1.7812, G/loss_fake2: 1.5445
+[14/1499], D/loss_real: 0.0005, D/loss_fake: 0.6065, D/loss_real2: 0.1624, D/loss_fake2: 0.4267, G/loss_ft: 0.0761, G/loss_l1: 0.2489, G/loss_fake: 1.7617, G/loss_fake2: 1.2294
+[14/1999], D/loss_real: 0.0762, D/loss_fake: 0.0225, D/loss_real2: 0.2482, D/loss_fake2: 0.0720, G/loss_ft: 0.0712, G/loss_l1: 0.2646, G/loss_fake: 1.1673, G/loss_fake2: 1.3129
+[14/2499], D/loss_real: 0.0024, D/loss_fake: 0.1060, D/loss_real2: 0.1975, D/loss_fake2: 0.1403, G/loss_ft: 0.0725, G/loss_l1: 0.2495, G/loss_fake: 1.7571, G/loss_fake2: 1.4851
+[14/2999], D/loss_real: 0.0074, D/loss_fake: 0.1321, D/loss_real2: 0.1515, D/loss_fake2: 0.1123, G/loss_ft: 0.0698, G/loss_l1: 0.2523, G/loss_fake: 1.8606, G/loss_fake2: 1.6932
+[14/3499], D/loss_real: 0.0681, D/loss_fake: 0.0455, D/loss_real2: 0.2107, D/loss_fake2: 0.0554, G/loss_ft: 0.0674, G/loss_l1: 0.2509, G/loss_fake: 1.5485, G/loss_fake2: 1.5959
+Save fake images into gan/samples/15-train.png...
+Save fake images into gan/samples/15-random.png...
+Save fake images into gan/samples/15-test.png...
+Generator, discriminator, and total loss for 14 epoch is: 326.9368896484375, 1386.55810546875, 1713.4949951171875
+[15/499], D/loss_real: 0.0105, D/loss_fake: 0.2463, D/loss_real2: 0.2372, D/loss_fake2: 0.1174, G/loss_ft: 0.0670, G/loss_l1: 0.2458, G/loss_fake: 2.2385, G/loss_fake2: 1.5745
+[15/999], D/loss_real: 0.0075, D/loss_fake: 0.0539, D/loss_real2: 0.5487, D/loss_fake2: 0.0392, G/loss_ft: 0.0678, G/loss_l1: 0.2470, G/loss_fake: 1.8053, G/loss_fake2: 1.6632
+[15/1499], D/loss_real: 0.0072, D/loss_fake: 0.2567, D/loss_real2: 0.1614, D/loss_fake2: 0.2384, G/loss_ft: 0.0700, G/loss_l1: 0.2535, G/loss_fake: 1.8927, G/loss_fake2: 1.6088
+[15/1999], D/loss_real: 0.0057, D/loss_fake: 0.1540, D/loss_real2: 0.3425, D/loss_fake2: 0.1136, G/loss_ft: 0.0691, G/loss_l1: 0.2516, G/loss_fake: 1.8461, G/loss_fake2: 0.9840
+[15/2499], D/loss_real: 0.0079, D/loss_fake: 0.1496, D/loss_real2: 0.5475, D/loss_fake2: 0.1216, G/loss_ft: 0.0680, G/loss_l1: 0.2580, G/loss_fake: 1.7765, G/loss_fake2: 0.8615
+[15/2999], D/loss_real: 0.4797, D/loss_fake: 0.0228, D/loss_real2: 0.1574, D/loss_fake2: 0.6958, G/loss_ft: 0.0623, G/loss_l1: 0.2510, G/loss_fake: 0.8201, G/loss_fake2: 0.7523
+[15/3499], D/loss_real: 0.1666, D/loss_fake: 0.0087, D/loss_real2: 0.5549, D/loss_fake2: 0.2171, G/loss_ft: 0.0630, G/loss_l1: 0.2541, G/loss_fake: 1.0343, G/loss_fake2: 0.7272
+Save fake images into gan/samples/16-train.png...
+Save fake images into gan/samples/16-random.png...
+Save fake images into gan/samples/16-test.png...
+Generator, discriminator, and total loss for 15 epoch is: 301.9665222167969, 1517.5325927734375, 1819.4991455078125
+[16/499], D/loss_real: 0.0000, D/loss_fake: 0.3494, D/loss_real2: 0.6759, D/loss_fake2: 0.3941, G/loss_ft: 0.0674, G/loss_l1: 0.2459, G/loss_fake: 2.0834, G/loss_fake2: 0.8620
+[16/999], D/loss_real: 0.6100, D/loss_fake: 0.0000, D/loss_real2: 0.9721, D/loss_fake2: 0.0217, G/loss_ft: 0.0617, G/loss_l1: 0.2519, G/loss_fake: 0.5118, G/loss_fake2: 0.3535
+[16/1499], D/loss_real: 0.1522, D/loss_fake: 0.0141, D/loss_real2: 0.9085, D/loss_fake2: 0.0727, G/loss_ft: 0.0641, G/loss_l1: 0.2559, G/loss_fake: 0.9462, G/loss_fake2: 0.6783
+[16/1999], D/loss_real: 0.3010, D/loss_fake: 0.0000, D/loss_real2: 1.1619, D/loss_fake2: 0.0351, G/loss_ft: 0.0616, G/loss_l1: 0.2473, G/loss_fake: 0.8530, G/loss_fake2: 0.9020
+[16/2499], D/loss_real: 0.2820, D/loss_fake: 0.0044, D/loss_real2: 1.0189, D/loss_fake2: 0.0346, G/loss_ft: 0.0629, G/loss_l1: 0.2541, G/loss_fake: 1.0034, G/loss_fake2: 0.7977
+[16/2999], D/loss_real: 0.3486, D/loss_fake: 0.0083, D/loss_real2: 0.7434, D/loss_fake2: 0.1254, G/loss_ft: 0.0616, G/loss_l1: 0.2507, G/loss_fake: 0.7795, G/loss_fake2: 0.7688
+[16/3499], D/loss_real: 0.0117, D/loss_fake: 0.2306, D/loss_real2: 0.7202, D/loss_fake2: 0.1527, G/loss_ft: 0.0647, G/loss_l1: 0.2413, G/loss_fake: 1.7996, G/loss_fake2: 0.7904
+Save fake images into gan/samples/17-train.png...
+Save fake images into gan/samples/17-random.png...
+Save fake images into gan/samples/17-test.png...
+Generator, discriminator, and total loss for 16 epoch is: 286.5699462890625, 1820.5716552734375, 2107.1416015625
+[17/499], D/loss_real: 0.2922, D/loss_fake: 0.0041, D/loss_real2: 1.1065, D/loss_fake2: 0.0166, G/loss_ft: 0.0625, G/loss_l1: 0.2543, G/loss_fake: 0.6058, G/loss_fake2: 0.7266
+[17/999], D/loss_real: 0.7555, D/loss_fake: 0.0041, D/loss_real2: 0.9304, D/loss_fake2: 0.0553, G/loss_ft: 0.0612, G/loss_l1: 0.2594, G/loss_fake: 0.5283, G/loss_fake2: 0.4008
+[17/1499], D/loss_real: 0.0136, D/loss_fake: 0.2278, D/loss_real2: 0.5136, D/loss_fake2: 0.2784, G/loss_ft: 0.0652, G/loss_l1: 0.2583, G/loss_fake: 1.8892, G/loss_fake2: 0.9392
+[17/1999], D/loss_real: 0.0873, D/loss_fake: 0.0344, D/loss_real2: 0.8417, D/loss_fake2: 0.0896, G/loss_ft: 0.0618, G/loss_l1: 0.2501, G/loss_fake: 1.2365, G/loss_fake2: 0.6793
+[17/2499], D/loss_real: 0.4521, D/loss_fake: 0.0015, D/loss_real2: 0.8443, D/loss_fake2: 0.0794, G/loss_ft: 0.0612, G/loss_l1: 0.2550, G/loss_fake: 0.5139, G/loss_fake2: 0.5750
+[17/2999], D/loss_real: 0.1646, D/loss_fake: 0.0186, D/loss_real2: 0.5271, D/loss_fake2: 0.2105, G/loss_ft: 0.0606, G/loss_l1: 0.2517, G/loss_fake: 0.7996, G/loss_fake2: 0.7513
+[17/3499], D/loss_real: 0.0735, D/loss_fake: 0.0472, D/loss_real2: 0.3463, D/loss_fake2: 0.4049, G/loss_ft: 0.0602, G/loss_l1: 0.2524, G/loss_fake: 1.3675, G/loss_fake2: 1.2042
+Save fake images into gan/samples/18-train.png...
+Save fake images into gan/samples/18-random.png...
+Save fake images into gan/samples/18-test.png...
+Generator, discriminator, and total loss for 17 epoch is: 272.92291259765625, 1866.2379150390625, 2139.160888671875
+[18/499], D/loss_real: 0.0090, D/loss_fake: 0.2753, D/loss_real2: 0.7925, D/loss_fake2: 0.1592, G/loss_ft: 0.0662, G/loss_l1: 0.2465, G/loss_fake: 1.9211, G/loss_fake2: 0.9088
+[18/999], D/loss_real: 0.1915, D/loss_fake: 0.0121, D/loss_real2: 1.5728, D/loss_fake2: 0.0088, G/loss_ft: 0.0597, G/loss_l1: 0.2530, G/loss_fake: 0.9201, G/loss_fake2: 0.8788
+[18/1499], D/loss_real: 0.1505, D/loss_fake: 0.0099, D/loss_real2: 0.8347, D/loss_fake2: 0.0818, G/loss_ft: 0.0622, G/loss_l1: 0.2664, G/loss_fake: 0.8151, G/loss_fake2: 0.6880
+[18/1999], D/loss_real: 0.3886, D/loss_fake: 0.0090, D/loss_real2: 0.7843, D/loss_fake2: 0.1634, G/loss_ft: 0.0573, G/loss_l1: 0.2542, G/loss_fake: 0.8890, G/loss_fake2: 0.7668
+[18/2499], D/loss_real: 0.0295, D/loss_fake: 0.2097, D/loss_real2: 0.4078, D/loss_fake2: 0.2802, G/loss_ft: 0.0627, G/loss_l1: 0.2555, G/loss_fake: 1.7579, G/loss_fake2: 1.4785
+[18/2999], D/loss_real: 0.0159, D/loss_fake: 0.2611, D/loss_real2: 0.3546, D/loss_fake2: 0.3563, G/loss_ft: 0.0613, G/loss_l1: 0.2487, G/loss_fake: 1.8562, G/loss_fake2: 1.2061
+[18/3499], D/loss_real: 0.1106, D/loss_fake: 0.0534, D/loss_real2: 0.3590, D/loss_fake2: 0.4376, G/loss_ft: 0.0594, G/loss_l1: 0.2515, G/loss_fake: 1.2663, G/loss_fake2: 1.2480
+Save fake images into gan/samples/19-train.png...
+Save fake images into gan/samples/19-random.png...
+Save fake images into gan/samples/19-test.png...
+Generator, discriminator, and total loss for 18 epoch is: 259.0625915527344, 1878.9813232421875, 2138.0439453125
+[19/499], D/loss_real: 0.0195, D/loss_fake: 0.2093, D/loss_real2: 0.2403, D/loss_fake2: 0.3822, G/loss_ft: 0.0634, G/loss_l1: 0.2642, G/loss_fake: 2.0115, G/loss_fake2: 1.2438
+[19/999], D/loss_real: 0.4928, D/loss_fake: 0.0000, D/loss_real2: 0.7402, D/loss_fake2: 0.1200, G/loss_ft: 0.0576, G/loss_l1: 0.2556, G/loss_fake: 0.7192, G/loss_fake2: 0.7345
+[19/1499], D/loss_real: 0.4704, D/loss_fake: 0.0072, D/loss_real2: 0.5411, D/loss_fake2: 0.2072, G/loss_ft: 0.0582, G/loss_l1: 0.2522, G/loss_fake: 0.8047, G/loss_fake2: 0.7000
+[19/1999], D/loss_real: 0.0322, D/loss_fake: 0.1273, D/loss_real2: 0.3537, D/loss_fake2: 0.3737, G/loss_ft: 0.0594, G/loss_l1: 0.2592, G/loss_fake: 1.6444, G/loss_fake2: 1.1616
+[19/2499], D/loss_real: 0.0426, D/loss_fake: 0.0729, D/loss_real2: 0.3218, D/loss_fake2: 0.4870, G/loss_ft: 0.0582, G/loss_l1: 0.2509, G/loss_fake: 1.5750, G/loss_fake2: 1.3494
+[19/2999], D/loss_real: 0.0399, D/loss_fake: 0.0566, D/loss_real2: 0.2677, D/loss_fake2: 0.1472, G/loss_ft: 0.0625, G/loss_l1: 0.2684, G/loss_fake: 1.5551, G/loss_fake2: 1.1539
+[19/3499], D/loss_real: 0.0945, D/loss_fake: 0.0179, D/loss_real2: 1.0770, D/loss_fake2: 0.0163, G/loss_ft: 0.0601, G/loss_l1: 0.2693, G/loss_fake: 1.1117, G/loss_fake2: 0.4841
+Save fake images into gan/samples/20-train.png...
+Save fake images into gan/samples/20-random.png...
+Save fake images into gan/samples/20-test.png...
+Saved model checkpoints into gan/models/model_20.tar !
+Generator, discriminator, and total loss for 19 epoch is: 244.59068298339844, 1915.1346435546875, 2159.725341796875
+[20/499], D/loss_real: 0.0177, D/loss_fake: 0.2619, D/loss_real2: 0.4261, D/loss_fake2: 0.3404, G/loss_ft: 0.0621, G/loss_l1: 0.2733, G/loss_fake: 1.8041, G/loss_fake2: 1.0712
+[20/999], D/loss_real: 0.0037, D/loss_fake: 0.3015, D/loss_real2: 0.1619, D/loss_fake2: 0.3037, G/loss_ft: 0.0625, G/loss_l1: 0.2676, G/loss_fake: 2.0635, G/loss_fake2: 1.9738
+[20/1499], D/loss_real: 0.2202, D/loss_fake: 0.0100, D/loss_real2: 1.2074, D/loss_fake2: 0.0120, G/loss_ft: 0.0574, G/loss_l1: 0.2624, G/loss_fake: 0.9763, G/loss_fake2: 0.4820
+[20/1999], D/loss_real: 0.2413, D/loss_fake: 0.0000, D/loss_real2: 1.1968, D/loss_fake2: 0.0290, G/loss_ft: 0.0605, G/loss_l1: 0.2840, G/loss_fake: 0.5687, G/loss_fake2: 0.0330
+[20/2499], D/loss_real: 0.0045, D/loss_fake: 0.1083, D/loss_real2: 0.5974, D/loss_fake2: 0.1440, G/loss_ft: 0.0621, G/loss_l1: 0.2698, G/loss_fake: 1.7052, G/loss_fake2: 0.7400
+[20/2999], D/loss_real: 0.0061, D/loss_fake: 0.2403, D/loss_real2: 0.6603, D/loss_fake2: 0.2127, G/loss_ft: 0.0613, G/loss_l1: 0.2765, G/loss_fake: 1.8153, G/loss_fake2: 0.7220
+[20/3499], D/loss_real: 0.0277, D/loss_fake: 0.1876, D/loss_real2: 0.4314, D/loss_fake2: 0.1627, G/loss_ft: 0.0590, G/loss_l1: 0.2686, G/loss_fake: 1.7028, G/loss_fake2: 0.8844
+Save fake images into gan/samples/21-train.png...
+Save fake images into gan/samples/21-random.png...
+Save fake images into gan/samples/21-test.png...
+Generator, discriminator, and total loss for 20 epoch is: 228.5965576171875, 1929.1046142578125, 2157.701171875
+[21/499], D/loss_real: 0.0095, D/loss_fake: 0.3489, D/loss_real2: 0.6905, D/loss_fake2: 0.3115, G/loss_ft: 0.0600, G/loss_l1: 0.2702, G/loss_fake: 1.9826, G/loss_fake2: 0.8628
+[21/999], D/loss_real: 0.2189, D/loss_fake: 0.0109, D/loss_real2: 0.7964, D/loss_fake2: 0.1410, G/loss_ft: 0.0525, G/loss_l1: 0.2568, G/loss_fake: 0.6897, G/loss_fake2: 0.7158
+[21/1499], D/loss_real: 0.2174, D/loss_fake: 0.0033, D/loss_real2: 1.1609, D/loss_fake2: 0.0167, G/loss_ft: 0.0582, G/loss_l1: 0.2802, G/loss_fake: 1.0003, G/loss_fake2: 0.7545
+[21/1999], D/loss_real: 0.0140, D/loss_fake: 0.1892, D/loss_real2: 0.1604, D/loss_fake2: 0.6041, G/loss_ft: 0.0549, G/loss_l1: 0.2594, G/loss_fake: 1.8948, G/loss_fake2: 1.4455
+[21/2499], D/loss_real: 0.0134, D/loss_fake: 0.2579, D/loss_real2: 0.2628, D/loss_fake2: 0.6506, G/loss_ft: 0.0573, G/loss_l1: 0.2723, G/loss_fake: 1.9193, G/loss_fake2: 1.4641
+[21/2999], D/loss_real: 0.0680, D/loss_fake: 0.1544, D/loss_real2: 0.4318, D/loss_fake2: 0.3008, G/loss_ft: 0.0583, G/loss_l1: 0.2753, G/loss_fake: 1.4805, G/loss_fake2: 0.9857
+[21/3499], D/loss_real: 0.4934, D/loss_fake: 0.0021, D/loss_real2: 1.2663, D/loss_fake2: 0.0041, G/loss_ft: 0.0551, G/loss_l1: 0.2773, G/loss_fake: 0.5348, G/loss_fake2: 0.7208
+Save fake images into gan/samples/22-train.png...
+Save fake images into gan/samples/22-random.png...
+Save fake images into gan/samples/22-test.png...
+Generator, discriminator, and total loss for 21 epoch is: 222.62425231933594, 1917.2955322265625, 2139.919677734375
+[22/499], D/loss_real: 0.0138, D/loss_fake: 0.1253, D/loss_real2: 0.4300, D/loss_fake2: 0.3704, G/loss_ft: 0.0569, G/loss_l1: 0.2803, G/loss_fake: 1.7408, G/loss_fake2: 0.9845
+[22/999], D/loss_real: 0.0070, D/loss_fake: 0.1100, D/loss_real2: 0.1486, D/loss_fake2: 0.9886, G/loss_ft: 0.0578, G/loss_l1: 0.2729, G/loss_fake: 2.1395, G/loss_fake2: 1.7270
+[22/1499], D/loss_real: 0.2995, D/loss_fake: 0.0044, D/loss_real2: 1.0471, D/loss_fake2: 0.0165, G/loss_ft: 0.0521, G/loss_l1: 0.2632, G/loss_fake: 0.8461, G/loss_fake2: 0.7250
+[22/1999], D/loss_real: 0.0270, D/loss_fake: 0.1291, D/loss_real2: 0.6886, D/loss_fake2: 0.1986, G/loss_ft: 0.0535, G/loss_l1: 0.2563, G/loss_fake: 1.6740, G/loss_fake2: 0.7714
+[22/2499], D/loss_real: 0.2866, D/loss_fake: 0.0175, D/loss_real2: 0.7660, D/loss_fake2: 0.0871, G/loss_ft: 0.0523, G/loss_l1: 0.2669, G/loss_fake: 0.7154, G/loss_fake2: 0.4939
+[22/2999], D/loss_real: 0.2685, D/loss_fake: 0.0118, D/loss_real2: 0.1101, D/loss_fake2: 0.7837, G/loss_ft: 0.0552, G/loss_l1: 0.2675, G/loss_fake: 1.0759, G/loss_fake2: 1.1401
+[22/3499], D/loss_real: 0.4994, D/loss_fake: 0.0171, D/loss_real2: 0.3567, D/loss_fake2: 0.2580, G/loss_ft: 0.0538, G/loss_l1: 0.2728, G/loss_fake: 0.8343, G/loss_fake2: 0.8233
+Save fake images into gan/samples/23-train.png...
+Save fake images into gan/samples/23-random.png...
+Save fake images into gan/samples/23-test.png...
+Generator, discriminator, and total loss for 22 epoch is: 218.76197814941406, 1884.0916748046875, 2102.853759765625
+[23/499], D/loss_real: 0.2974, D/loss_fake: 0.0058, D/loss_real2: 0.8373, D/loss_fake2: 0.0793, G/loss_ft: 0.0509, G/loss_l1: 0.2705, G/loss_fake: 0.7546, G/loss_fake2: 0.6351
+[23/999], D/loss_real: 0.0117, D/loss_fake: 0.2348, D/loss_real2: 1.2057, D/loss_fake2: 0.0727, G/loss_ft: 0.0576, G/loss_l1: 0.2734, G/loss_fake: 1.8090, G/loss_fake2: 0.5699
+[23/1499], D/loss_real: 0.1924, D/loss_fake: 0.0041, D/loss_real2: 0.8793, D/loss_fake2: 0.0447, G/loss_ft: 0.0552, G/loss_l1: 0.2786, G/loss_fake: 1.1288, G/loss_fake2: 0.5841
+[23/1999], D/loss_real: 0.0163, D/loss_fake: 0.2556, D/loss_real2: 0.2955, D/loss_fake2: 0.6268, G/loss_ft: 0.0571, G/loss_l1: 0.2736, G/loss_fake: 2.1895, G/loss_fake2: 1.4842
+[23/2499], D/loss_real: 0.0218, D/loss_fake: 0.2057, D/loss_real2: 0.4326, D/loss_fake2: 0.4520, G/loss_ft: 0.0560, G/loss_l1: 0.2728, G/loss_fake: 1.8668, G/loss_fake2: 1.1854
+[23/2999], D/loss_real: 0.2197, D/loss_fake: 0.0000, D/loss_real2: 0.8368, D/loss_fake2: 0.1035, G/loss_ft: 0.0543, G/loss_l1: 0.2732, G/loss_fake: 0.8767, G/loss_fake2: 0.5715
+[23/3499], D/loss_real: 0.0335, D/loss_fake: 0.1147, D/loss_real2: 0.8386, D/loss_fake2: 0.0428, G/loss_ft: 0.0559, G/loss_l1: 0.2693, G/loss_fake: 1.6017, G/loss_fake2: 0.2392
+Save fake images into gan/samples/24-train.png...
+Save fake images into gan/samples/24-random.png...
+Save fake images into gan/samples/24-test.png...
+Generator, discriminator, and total loss for 23 epoch is: 215.32542419433594, 1851.4002685546875, 2066.7255859375
+[24/499], D/loss_real: 0.0034, D/loss_fake: 0.2226, D/loss_real2: 0.6957, D/loss_fake2: 0.1392, G/loss_ft: 0.0551, G/loss_l1: 0.2647, G/loss_fake: 1.7879, G/loss_fake2: 0.6462
+[24/999], D/loss_real: 0.2960, D/loss_fake: 0.0090, D/loss_real2: 0.6197, D/loss_fake2: 0.1721, G/loss_ft: 0.0527, G/loss_l1: 0.2760, G/loss_fake: 0.5637, G/loss_fake2: 0.3296
+[24/1499], D/loss_real: 0.0000, D/loss_fake: 0.2440, D/loss_real2: 0.2216, D/loss_fake2: 0.5219, G/loss_ft: 0.0565, G/loss_l1: 0.2845, G/loss_fake: 2.1160, G/loss_fake2: 1.0521
+[24/1999], D/loss_real: 0.3238, D/loss_fake: 0.0041, D/loss_real2: 0.5211, D/loss_fake2: 0.2456, G/loss_ft: 0.0521, G/loss_l1: 0.2731, G/loss_fake: 0.5644, G/loss_fake2: 0.4799
+[24/2499], D/loss_real: 0.3185, D/loss_fake: 0.0002, D/loss_real2: 1.5700, D/loss_fake2: 0.0071, G/loss_ft: 0.0523, G/loss_l1: 0.2757, G/loss_fake: 0.5971, G/loss_fake2: 0.9733
+[24/2999], D/loss_real: 0.1003, D/loss_fake: 0.0151, D/loss_real2: 0.2325, D/loss_fake2: 0.6936, G/loss_ft: 0.0526, G/loss_l1: 0.2778, G/loss_fake: 1.2851, G/loss_fake2: 1.2645
+[24/3499], D/loss_real: 0.0142, D/loss_fake: 0.2185, D/loss_real2: 0.4900, D/loss_fake2: 0.4417, G/loss_ft: 0.0548, G/loss_l1: 0.2851, G/loss_fake: 1.9391, G/loss_fake2: 0.8519
+Save fake images into gan/samples/25-train.png...
+Save fake images into gan/samples/25-random.png...
+Save fake images into gan/samples/25-test.png...
+Generator, discriminator, and total loss for 24 epoch is: 212.1942596435547, 1807.5870361328125, 2019.78125
+[25/499], D/loss_real: 0.0236, D/loss_fake: 0.6424, D/loss_real2: 0.0969, D/loss_fake2: 0.9500, G/loss_ft: 0.0549, G/loss_l1: 0.2600, G/loss_fake: 2.2339, G/loss_fake2: 2.0535
+[25/999], D/loss_real: 0.3256, D/loss_fake: 0.0376, D/loss_real2: 0.4326, D/loss_fake2: 0.4184, G/loss_ft: 0.0541, G/loss_l1: 0.2770, G/loss_fake: 1.1046, G/loss_fake2: 0.6488
+[25/1499], D/loss_real: 0.0006, D/loss_fake: 0.2315, D/loss_real2: 0.2983, D/loss_fake2: 0.6612, G/loss_ft: 0.0542, G/loss_l1: 0.2711, G/loss_fake: 2.1512, G/loss_fake2: 1.1279
+[25/1999], D/loss_real: 0.0215, D/loss_fake: 0.0844, D/loss_real2: 0.2096, D/loss_fake2: 0.5410, G/loss_ft: 0.0554, G/loss_l1: 0.2636, G/loss_fake: 1.8041, G/loss_fake2: 1.5642
+[25/2499], D/loss_real: 0.0926, D/loss_fake: 0.0216, D/loss_real2: 0.2973, D/loss_fake2: 0.4618, G/loss_ft: 0.0514, G/loss_l1: 0.2688, G/loss_fake: 1.1799, G/loss_fake2: 0.9803
+[25/2999], D/loss_real: 0.0006, D/loss_fake: 0.4694, D/loss_real2: 0.1447, D/loss_fake2: 1.0285, G/loss_ft: 0.0560, G/loss_l1: 0.2779, G/loss_fake: 2.2214, G/loss_fake2: 1.4148
+[25/3499], D/loss_real: 0.0129, D/loss_fake: 0.1317, D/loss_real2: 0.4347, D/loss_fake2: 0.3298, G/loss_ft: 0.0548, G/loss_l1: 0.2762, G/loss_fake: 1.8809, G/loss_fake2: 0.8771
+Save fake images into gan/samples/26-train.png...
+Save fake images into gan/samples/26-random.png...
+Save fake images into gan/samples/26-test.png...
+Generator, discriminator, and total loss for 25 epoch is: 209.92922973632812, 1766.406982421875, 1976.336181640625
+[26/499], D/loss_real: 0.0399, D/loss_fake: 0.1143, D/loss_real2: 0.6915, D/loss_fake2: 0.0629, G/loss_ft: 0.0540, G/loss_l1: 0.2651, G/loss_fake: 1.5129, G/loss_fake2: 1.5468
+[26/999], D/loss_real: 0.0140, D/loss_fake: 0.1093, D/loss_real2: 0.6624, D/loss_fake2: 0.1776, G/loss_ft: 0.0539, G/loss_l1: 0.2730, G/loss_fake: 1.9492, G/loss_fake2: 0.7641
+[26/1499], D/loss_real: 0.2000, D/loss_fake: 0.0267, D/loss_real2: 0.4193, D/loss_fake2: 0.4761, G/loss_ft: 0.0504, G/loss_l1: 0.2698, G/loss_fake: 0.9759, G/loss_fake2: 0.9665
+[26/1999], D/loss_real: 0.5046, D/loss_fake: 0.0140, D/loss_real2: 0.1721, D/loss_fake2: 0.6809, G/loss_ft: 0.0528, G/loss_l1: 0.2757, G/loss_fake: 0.7743, G/loss_fake2: 0.2217
+[26/2499], D/loss_real: 0.0302, D/loss_fake: 0.1194, D/loss_real2: 0.3029, D/loss_fake2: 0.6736, G/loss_ft: 0.0519, G/loss_l1: 0.2688, G/loss_fake: 1.7264, G/loss_fake2: 1.2285
+[26/2999], D/loss_real: 0.0056, D/loss_fake: 0.4537, D/loss_real2: 0.4556, D/loss_fake2: 0.2445, G/loss_ft: 0.0553, G/loss_l1: 0.2641, G/loss_fake: 1.9858, G/loss_fake2: 0.5876
+[26/3499], D/loss_real: 0.2853, D/loss_fake: 0.0036, D/loss_real2: 1.4126, D/loss_fake2: 0.0093, G/loss_ft: 0.0494, G/loss_l1: 0.2603, G/loss_fake: 0.7927, G/loss_fake2: 0.6724
+Save fake images into gan/samples/27-train.png...
+Save fake images into gan/samples/27-random.png...
+Save fake images into gan/samples/27-test.png...
+Generator, discriminator, and total loss for 26 epoch is: 207.98118591308594, 1737.5018310546875, 1945.4830322265625
+[27/499], D/loss_real: 0.0066, D/loss_fake: 0.4138, D/loss_real2: 0.0472, D/loss_fake2: 1.0815, G/loss_ft: 0.0559, G/loss_l1: 0.2768, G/loss_fake: 1.7906, G/loss_fake2: 1.9655
+[27/999], D/loss_real: 0.0104, D/loss_fake: 0.2344, D/loss_real2: 0.4878, D/loss_fake2: 0.2296, G/loss_ft: 0.0539, G/loss_l1: 0.2706, G/loss_fake: 1.9340, G/loss_fake2: 0.6074
+[27/1499], D/loss_real: 0.0002, D/loss_fake: 0.2842, D/loss_real2: 0.1741, D/loss_fake2: 0.6617, G/loss_ft: 0.0529, G/loss_l1: 0.2736, G/loss_fake: 2.2982, G/loss_fake2: 1.3351
+[27/1999], D/loss_real: 0.3006, D/loss_fake: 0.0103, D/loss_real2: 0.6907, D/loss_fake2: 0.1354, G/loss_ft: 0.0511, G/loss_l1: 0.2779, G/loss_fake: 0.7790, G/loss_fake2: 0.4509
+[27/2499], D/loss_real: 0.1918, D/loss_fake: 0.0017, D/loss_real2: 0.7308, D/loss_fake2: 0.1842, G/loss_ft: 0.0491, G/loss_l1: 0.2665, G/loss_fake: 0.9881, G/loss_fake2: 0.4667
+[27/2999], D/loss_real: 0.0266, D/loss_fake: 0.0585, D/loss_real2: 0.2075, D/loss_fake2: 0.8341, G/loss_ft: 0.0505, G/loss_l1: 0.2698, G/loss_fake: 1.6780, G/loss_fake2: 1.1644
+[27/3499], D/loss_real: 0.0491, D/loss_fake: 0.0200, D/loss_real2: 0.8915, D/loss_fake2: 0.0893, G/loss_ft: 0.0507, G/loss_l1: 0.2757, G/loss_fake: 1.3695, G/loss_fake2: 0.2908
+Save fake images into gan/samples/28-train.png...
+Save fake images into gan/samples/28-random.png...
+Save fake images into gan/samples/28-test.png...
+Generator, discriminator, and total loss for 27 epoch is: 205.68142700195312, 1711.28076171875, 1916.962158203125
+[28/499], D/loss_real: 0.1875, D/loss_fake: 0.0139, D/loss_real2: 0.6888, D/loss_fake2: 0.1755, G/loss_ft: 0.0488, G/loss_l1: 0.2719, G/loss_fake: 0.9922, G/loss_fake2: 0.6037
+[28/999], D/loss_real: 0.1313, D/loss_fake: 0.0090, D/loss_real2: 0.5291, D/loss_fake2: 0.2296, G/loss_ft: 0.0519, G/loss_l1: 0.2774, G/loss_fake: 1.2102, G/loss_fake2: 0.8877
+[28/1499], D/loss_real: 0.0735, D/loss_fake: 0.0136, D/loss_real2: 1.0763, D/loss_fake2: 0.0207, G/loss_ft: 0.0508, G/loss_l1: 0.2660, G/loss_fake: 1.2840, G/loss_fake2: 0.1871
+[28/1999], D/loss_real: 0.0023, D/loss_fake: 0.1899, D/loss_real2: 0.6912, D/loss_fake2: 0.1658, G/loss_ft: 0.0547, G/loss_l1: 0.2792, G/loss_fake: 1.9568, G/loss_fake2: 0.6393
+[28/2499], D/loss_real: 0.2391, D/loss_fake: 0.0018, D/loss_real2: 1.6055, D/loss_fake2: 0.0048, G/loss_ft: 0.0490, G/loss_l1: 0.2650, G/loss_fake: 0.9696, G/loss_fake2: 0.9896
+[28/2999], D/loss_real: 0.2770, D/loss_fake: 0.0074, D/loss_real2: 0.5849, D/loss_fake2: 0.1847, G/loss_ft: 0.0506, G/loss_l1: 0.2844, G/loss_fake: 0.7246, G/loss_fake2: 0.3272
+[28/3499], D/loss_real: 0.0086, D/loss_fake: 0.1821, D/loss_real2: 0.4393, D/loss_fake2: 0.1941, G/loss_ft: 0.0518, G/loss_l1: 0.2697, G/loss_fake: 1.9051, G/loss_fake2: 0.9539
+Save fake images into gan/samples/29-train.png...
+Save fake images into gan/samples/29-random.png...
+Save fake images into gan/samples/29-test.png...
+Generator, discriminator, and total loss for 28 epoch is: 203.65907287597656, 1695.138916015625, 1898.7979736328125
+[29/499], D/loss_real: 0.0033, D/loss_fake: 0.1589, D/loss_real2: 0.2914, D/loss_fake2: 0.5935, G/loss_ft: 0.0532, G/loss_l1: 0.2795, G/loss_fake: 1.8328, G/loss_fake2: 1.1699
+[29/999], D/loss_real: 0.0273, D/loss_fake: 0.0575, D/loss_real2: 0.1814, D/loss_fake2: 0.7099, G/loss_ft: 0.0538, G/loss_l1: 0.2907, G/loss_fake: 1.8609, G/loss_fake2: 1.3634
+[29/1499], D/loss_real: 0.1952, D/loss_fake: 0.0047, D/loss_real2: 0.3701, D/loss_fake2: 0.4367, G/loss_ft: 0.0501, G/loss_l1: 0.2729, G/loss_fake: 0.7861, G/loss_fake2: 1.0258
+[29/1999], D/loss_real: 0.2312, D/loss_fake: 0.0061, D/loss_real2: 0.7141, D/loss_fake2: 0.1415, G/loss_ft: 0.0498, G/loss_l1: 0.2823, G/loss_fake: 0.9600, G/loss_fake2: 0.5408
+[29/2499], D/loss_real: 0.1453, D/loss_fake: 0.0010, D/loss_real2: 1.3706, D/loss_fake2: 0.0162, G/loss_ft: 0.0525, G/loss_l1: 0.2844, G/loss_fake: 1.0945, G/loss_fake2: 0.5448
+[29/2999], D/loss_real: 0.0000, D/loss_fake: 0.3519, D/loss_real2: 0.2863, D/loss_fake2: 0.7434, G/loss_ft: 0.0532, G/loss_l1: 0.2799, G/loss_fake: 2.3031, G/loss_fake2: 1.0431
+[29/3499], D/loss_real: 0.0837, D/loss_fake: 0.0226, D/loss_real2: 1.1837, D/loss_fake2: 0.0328, G/loss_ft: 0.0495, G/loss_l1: 0.2731, G/loss_fake: 1.4347, G/loss_fake2: 0.6271
+Save fake images into gan/samples/30-train.png...
+Save fake images into gan/samples/30-random.png...
+Save fake images into gan/samples/30-test.png...
+Saved model checkpoints into gan/models/model_30.tar !
+Generator, discriminator, and total loss for 29 epoch is: 202.73941040039062, 1671.1131591796875, 1873.8525390625

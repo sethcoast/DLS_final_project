@@ -1,0 +1,14 @@
+# First install anaconda on your machine
+# Make a conda environment using following command
+conda create --name BigGANs python=3.8.10 tensorflow-gpu
+# Deactivate the "base" environment using following command
+conda deactivate
+# Activate BigGANs environment using following command
+conda activate BigGANs
+# Install jupyter notebook 
+conda install notebook
+jupyter notebook
+# Run the following jupyter notebook
+# It can be downloaded from https://www.tensorflow.org/hub/tutorials/biggan_generation_with_tf_hub
+biggan_generation_with_tf_hub.ipynb
+

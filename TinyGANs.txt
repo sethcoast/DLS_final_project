@@ -1,0 +1,17 @@
+# First install anaconda on your machine
+# Make a conda environment using following command
+conda create --name TinyGANs python=3.8.10 tensorflow-gpu
+# Deactivate the "base" environment using following command
+conda deactivate
+# Activate TinyGANs environment using following command
+conda activate TinyGANs
+# Install jupyter notebook 
+conda install notebook
+# Install torch and torch vision
+pip install torch==1.2
+pip install torchvision==0.4.0
+# For the inception score, we need to install the following version of the tensorflow.
+# Most of the current platforms and conda environment (created above) are not compatible with this version.
+# Suggestion is to find the similar command in newer/compatible version of TF. 
+pip install tensorflow-gpu==1.14
+
