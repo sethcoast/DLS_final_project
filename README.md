@@ -65,4 +65,15 @@ quantization to further reduce the size and memory of our network
 
 ![Inference during the training](https://github.com/sethcoast/DLS_final_project/blob/main/video/video_my_test.mp4)
 
+### References
+1. Chang, T. Y., & Lu, C. J. (2020). TinyGAN: Distilling BigGAN for Conditional Image Generation. In Proceedings of the Asian Conference on Computer Vision.
+2. Brock, A., Donahue, J., & Simonyan, K. (2018). Large scale GAN training for high fidelity natural image synthesis. arXiv preprint arXiv:1809.11096.
+3. BigGAN TF-hub, https://www.tensorflow.org/hub/tutorials/biggan_generation_with_tf_hub
+4. Deng, J., Dong, W., Socher, R., Li, L. J., Li, K., & Fei-Fei, L. (2009, June). Imagenet: A large-scale hierarchical image database. In 2009 IEEE conference on computer vision and pattern recognition (pp. 248-255). Ieee.
+5. Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., ... & Chintala, S. (2019). Pytorch: An imperative style, high-performance deep learning library. Advances in neural information processing systems, 32, 8026-8037
+6. Inception Score and Frechlet Inception Distance: Shichang Tang repository, https://github.com/tsc2017/
+7. Bilogur, Aleksey (2020, Dec 12), A developer friendly guide to model pruning in PyTorch, https://spell.ml/blog/model-pruning-in-pytorch-X9pXQRAAACIAcH9h?fbclid=IwAR3_iGmt9l64_Qp1V-xjfZ0A2qu9r2QifzH4kfXJ1Ua66nvVEkvq-fDaFbQ  
+
+
+
 
