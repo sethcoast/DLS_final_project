@@ -22,8 +22,7 @@ quantization to further reduce the size and memory of our network
 ### Data
 #### BigGANs Dataset (input/output papers): 
 1. First install anaconda on your machine
-2. Make a conda environment using following command 
-3. conda create --name BigGANs python=3.8.10 tensorflow-gpu
+2. Make a conda environment using following command <i>conda create --name BigGANs python=3.8.10 tensorflow-gpu</i>
 3. Deactivate the "base" environment using following command
 conda deactivate
 4. Activate BigGANs environment using following command
