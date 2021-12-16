@@ -20,15 +20,35 @@ with TinyGAN, we hope to expand on TinyGAN by exploring network pruning and/or
 quantization to further reduce the size and memory of our network
 
 ### Data
-#### BigGANs Dataset (input/output papers): 
+#### BigGANs Dataset (input/output pairs): 
 1. First install anaconda on your machine
 2. Make a conda environment using following command <i>conda create --name BigGANs python=3.8.10 tensorflow-gpu</i>
 3. Deactivate the "base" environment using following command <i>conda deactivate</i>
 4. Activate BigGANs environment using following command <i>conda activate BigGANs</i>
 5. Install jupyter notebook <i>conda install notebook  jupyter notebook</i>
 6. Run the following jupyter notebook
-7.  It can be downloaded from https://www.tensorflow.org/hub/tutorials/biggan_generation_with_tf_hub
-
+7.  It can be downloaded from [here](https://www.tensorflow.org/hub/tutorials/biggan_generation_with_tf_hub)
 
 [biggan_generation_with_tf_hub.ipynb](https://github.com/sethcoast/DLS_final_project/blob/main/biggan_generation_with_tf_hub.ipynb)
+
+#### ImageNet Dataset (real distribution dataset): 
+1. Downlaod the ImageNet dataset (ILSVRC 2012) from [here](https://www.image-net.org/challenges/LSVRC/) <i>"Training images (Task 1 & 2). 138GB." file.</i>
+2. Ensure you have sufficient memory on your disk to save the dataset and this process gonna take around 10 hours (vary with the internet connectivity)
+3. It will give a tar file "ILSVRC2012_img_train.tar" and you need to untar it using the following command <i>tar -xvf ILSVRC2012_img_train.tar --one-top-level</i>
+4. It will give you sub directories and repeat the same thing with sub-directories.
+5. Above process will take approximately 1-2 hours depending on the architecture of your system
+6. Now, we need to preprocess the dataset using the script utils/preprocess.sh. Reference for the [file](https://github.com/pfnet-research/sngan_projection)
+7. Execute the following command for preprocessing on your terminal/console.
+
+<i>IMAGENET_TRAIN_DIR=/path/to/imagenet/train/ # path to the parent directory of category directories named "n0*******".</i>
+
+<i>PREPROCESSED_DATA_DIR=/path/to/save_dir/</i>
+
+<i>cd utils/</i>
+
+<i>bash preprocess.sh $IMAGENET_TRAIN_DIR $PREPROCESSED_DATA_DIR</i>
+
+***NOTE:*** Above operations will transforms all images into a shape of 256 x 256 using "convert" linux command. The entire operation gonna take approximately 24 hours.
+
+
 
