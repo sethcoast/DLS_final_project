@@ -23,14 +23,10 @@ quantization to further reduce the size and memory of our network
 #### BigGANs Dataset (input/output papers): 
 1. First install anaconda on your machine
 2. Make a conda environment using following command <i>conda create --name BigGANs python=3.8.10 tensorflow-gpu</i>
-3. Deactivate the "base" environment using following command
-conda deactivate
-4. Activate BigGANs environment using following command
-conda activate BigGANs
-5. Install jupyter notebook
-conda install notebook
-jupyter notebook
+3. Deactivate the "base" environment using following command <i>conda deactivate</i>
+4. Activate BigGANs environment using following command <i>conda activate BigGANs</i>
+5. Install jupyter notebook <i>conda install notebook  jupyter notebook</i>
 6. Run the following jupyter notebook
 7.  It can be downloaded from https://www.tensorflow.org/hub/tutorials/biggan_generation_with_tf_hub
-[biggan_generation_with_tf_hub.ipynb](https://github.com/sethcoast/DLS_final_project/blob/main/biggan_generation_with_tf_hub.ipynb)
+(biggan_generation_with_tf_hub.ipynb)[https://github.com/sethcoast/DLS_final_project/blob/main/biggan_generation_with_tf_hub.ipynb]
 
