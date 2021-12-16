@@ -1,0 +1,24 @@
+# Make an account on the following webpage and log into the webpage.
+https://image-net.org/
+# Go to "Download" tab and look for ImageNet Large-scale Visual Recognition Challenge (ILSVRC) 2012 dataset.
+# Click on the above mentioned link and download "Training images (Task 1 & 2). 138GB." file.
+# Ensure you have sufficient memory on your disk to save the dataset and this process gonna take around 10 hours (vary with the internet connectivity)
+# It will give a tar file "ILSVRC2012_img_train.tar" and you need to untar it using the following command
+tar -xvf ILSVRC2012_img_train.tar --one-top-level
+# It will give you sub directories and repeat the same thing with sub-directories.
+# Above process will take approximately 1-2 hours depending on the architecture of your system
+# Now, we need to preprocess the dataset using the script utils/preprocess.sh.
+# Reference for the file: https://github.com/pfnet-research/sngan_projection
+# Check the datasets folder on the afore-mentioned GitHub repo
+# Execute the following command for preprocessing on your terminal/console.
+
+IMAGENET_TRAIN_DIR=/path/to/imagenet/train/ # path to the parent directory of category directories named "n0*******".
+
+PREPROCESSED_DATA_DIR=/path/to/save_dir/
+
+cd utils/
+
+bash preprocess.sh $IMAGENET_TRAIN_DIR $PREPROCESSED_DATA_DIR
+
+# Above operations will transforms all images into a shape of 256 x 256 using "convert" linux command. The entire operation gonna take approximately 24 hours.
+
