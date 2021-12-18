@@ -25,7 +25,7 @@ The files contained in this directory are as follows:
 - models
   - The actual pruned models. Contains two sub-folders containing the models for the two tested pruning methods, "l1" (layerwise) and "global" (10 models for each method).
 
-## Note
+### Note
 It is important to note, that this code WILL NOT run out of the box for a user wishing to perform their own pruning experiments, for a few reasons, namely:
 
 1. These experiments were performed on a Colab Pro+ account, and thus *expect* the user to have mounted their google drive. Both files read and write to google drive.
@@ -34,5 +34,16 @@ It is important to note, that this code WILL NOT run out of the box for a user w
 
 However! The code is well commented and should otherwise be self-explanatory. Also each notebook provides helpful visualizations of the results!
 
+## Results
+Qualitative results of pruning
+![alt text](readme_imgs/qualitative_pruning.png?raw=true)
 
+FID scores of pruning across both pruning methods
+![alt text](readme_imgs/FID_plot.png?raw=true)
+
+Inception Scores of pruning across both pruning methods
+![alt text](readme_imgs/IS_plot.png?raw=true)
+
+Non-Zero Parameter Counts of the 20 models across both pruning methods (rows marked in green denote the smallest models of each method with qualitatively acceptable results)
+![alt text](readme_imgs/model_sizes.png?raw=true)
 
